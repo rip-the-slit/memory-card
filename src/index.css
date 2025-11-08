@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+    background-color: black;
+}
+
 .failed {
     animation: failed 600ms ease-out;
 }

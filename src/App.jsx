@@ -37,7 +37,7 @@ function Card(props) {
 
 function Board({ children }) {
   return (
-    <section className="grid grid-cols-3 gap-5 place-content-center max-w-[40vw]">
+    <section className="grid grid-cols-3 gap-2 sm:gap-5 place-content-center sm:max-w-[40vw]">
       {children}
     </section>
   );
