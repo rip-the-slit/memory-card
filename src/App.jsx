@@ -8,10 +8,14 @@ const supabase = createClient(sbUrl, sbKey);
 
 function ScoresPanel({ scores }) {
   return (
-    <section>
+    <section className="mb-3 ">
       <p>
         <b className="">Current score: </b>
-        {scores.current}
+        {!scores.current && scores.best ? (
+          <span className="failed">{scores.current}</span>
+        ) : (
+          scores.current
+        )}
       </p>
       <p>
         <b className="">Best score: </b>
@@ -22,11 +26,21 @@ function ScoresPanel({ scores }) {
 }
 
 function Card(props) {
-  return <img onClick={props.onclick} src={props.img_url} />;
+  return (
+    <img
+      className="cursor-pointer active:scale-90 rounded-lg"
+      onClick={props.onclick}
+      src={props.img_url}
+    />
+  );
 }
 
 function Board({ children }) {
-  return <section className="grid grid-cols-5">{children}</section>;
+  return (
+    <section className="grid grid-cols-3 gap-5 place-content-center max-w-[40vw]">
+      {children}
+    </section>
+  );
 }
 
 function App() {
@@ -70,17 +84,26 @@ function App() {
       });
   }, []);
 
-  const deckSubset = deck.current?.sort((c) => Math.random() - 0.5).slice(0, 5);
+  const deckSubset = deck.current?.sort((c) => Math.random() - 0.5).slice(0, 6);
 
   return (
     <>
-      <main className="bg-black text-white m-0 h-screen">
-        <ScoresPanel scores={scores}></ScoresPanel>
-        <Board>
-          {deckSubset?.map((c) => (
-            <Card key={c.uuid} onclick={() => checkCard(c.uuid)} {...c}></Card>
-          ))}
-        </Board>
+      <main className="bg-black text-white font-display m-0 h-screen p-5 flex justify-center">
+        <div className="max-w-[1000px]">
+          <h1 className="text-xl text-center mb-3">
+            act i RENAISSANCE <span className="mx-5">Memory Game</span>
+          </h1>
+          <ScoresPanel scores={scores}></ScoresPanel>
+          <Board>
+            {deckSubset?.map((c) => (
+              <Card
+                key={c.uuid}
+                onclick={() => checkCard(c.uuid)}
+                {...c}
+              ></Card>
+            ))}
+          </Board>
+        </div>
       </main>
     </>
   );
